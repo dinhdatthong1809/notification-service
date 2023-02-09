@@ -1,0 +1,27 @@
+# Firebase
+firebase:
+  service-account: classpath:serviceAccountKey.json
+
+# Server
+server:
+  port: 8080
+
+# Datasource
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:32768/notification_service_db
+    username: notification_service_user
+    password: notification_service_user
+    hikari:
+      # Delay connection acquisition until it is really needed. Refer to https://dzone.com/articles/how-to-delay-connection-acquisition-until-its-real
+      auto-commit: false
+  jpa:
+    properties:
+      hibernate:
+        show-sql: true
+        connection:
+          # Delay connection acquisition until it is really needed. Refer to https://dzone.com/articles/how-to-delay-connection-acquisition-until-its-real
+          provider_disables_autocommit: true
+
+#spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
