@@ -1,3 +1,9 @@
+# Application specific properties
+app:
+  config:
+    cors:
+      allowed-origins: http://localhost:4200
+
 # Server
 server:
   port: 8080
