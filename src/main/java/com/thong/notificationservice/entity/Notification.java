@@ -1,21 +1,22 @@
 package com.thong.notificationservice.entity;
 
 import com.thong.notificationservice.entity.abstraction.AbstractEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "notification_message")
+@Table(name = "notification")
 @Getter
 @Setter
-public class NotificationMessage extends AbstractEntity {
+public class Notification extends AbstractEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String content;
+
+    private String topicId;
 
 }

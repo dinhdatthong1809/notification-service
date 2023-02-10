@@ -1,0 +1,17 @@
+app:
+  config:
+    firebase:
+      service-account-key: config/firebase/serviceAccountKey.json
+
+# Datasource
+spring:
+  datasource:
+    hikari:
+      # Delay connection acquisition until it is really needed. Refer to https://dzone.com/articles/how-to-delay-connection-acquisition-until-its-real
+      auto-commit: false
+  jpa:
+    properties:
+      hibernate:
+        connection:
+          # Delay connection acquisition until it is really needed. Refer to https://dzone.com/articles/how-to-delay-connection-acquisition-until-its-real
+          provider_disables_autocommit: true

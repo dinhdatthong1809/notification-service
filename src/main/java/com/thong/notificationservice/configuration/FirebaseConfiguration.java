@@ -15,8 +15,8 @@ import java.util.Objects;
 @Configuration
 public class FirebaseConfiguration {
 
-    @Value("classpath:secret/serviceAccountKey.json")
-    private Resource serviceAccount;
+    @Value("${app.config.firebase.service-account-key}")
+    private Resource firebaseServiceAccountKey;
 
     @Bean
     public FirebaseMessaging firebaseMessaging(FirebaseApp firebaseApp) {
@@ -34,12 +34,12 @@ public class FirebaseConfiguration {
 
     @Bean
     public GoogleCredentials googleCredentials() throws IOException {
-        if (Objects.isNull(serviceAccount)) {
+        if (Objects.isNull(firebaseServiceAccountKey)) {
             // Use standard credentials chain. Useful when running inside GKE
             return GoogleCredentials.getApplicationDefault();
         }
 
-        try (var inputStream = serviceAccount.getInputStream()) {
+        try (var inputStream = firebaseServiceAccountKey.getInputStream()) {
             return GoogleCredentials.fromStream(inputStream);
         }
     }

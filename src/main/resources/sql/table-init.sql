@@ -1,7 +1,8 @@
-create table notification_message
+create table notification
 (
-    id                 bigint primary key,
+    id                 bigserial primary key,
     content            text,
+    topic_id           text,
     created_by         text,
     created_date       date,
     last_modified_by   text,
