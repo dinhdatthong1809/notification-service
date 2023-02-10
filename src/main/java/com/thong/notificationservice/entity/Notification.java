@@ -15,8 +15,10 @@ public class Notification extends AbstractEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String content;
-
     private String topicId;
+
+    private String title;
+
+    private String content;
 
 }

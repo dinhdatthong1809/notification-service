@@ -1,7 +1,8 @@
+# Application specific properties
 app:
   config:
     firebase:
-      service-account-key: config/firebase/serviceAccountKey.json
+      service-account-key: classpath:config/firebase/serviceAccountKey.json
 
 # Datasource
 spring:

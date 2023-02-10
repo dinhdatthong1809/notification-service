@@ -1,8 +1,9 @@
 create table notification
 (
     id                 bigserial primary key,
-    content            text,
     topic_id           text,
+    title              text,
+    content            text,
     created_by         text,
     created_date       date,
     last_modified_by   text,

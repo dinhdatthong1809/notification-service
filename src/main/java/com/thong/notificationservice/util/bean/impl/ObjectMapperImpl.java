@@ -1,6 +1,6 @@
 package com.thong.notificationservice.util.bean.impl;
 
-import com.thong.notificationservice.dto.NotificationDto;
+import com.thong.notificationservice.dto.PushToTopicRequest;
 import com.thong.notificationservice.entity.Notification;
 import com.thong.notificationservice.util.bean.ObjectMapper;
 import org.springframework.stereotype.Component;
@@ -8,10 +8,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class ObjectMapperImpl implements ObjectMapper {
 
-    public Notification map(NotificationDto notificationDto) {
+    @Override
+    public Notification map(PushToTopicRequest pushToTopicRequest) {
         var notification = new Notification();
-        notification.setContent(notificationDto.getContent());
-        notification.setTopicId(notificationDto.getTopicId());
+        notification.setTopicId(pushToTopicRequest.getTopicId());
+        notification.setTitle(pushToTopicRequest.getTitle());
+        notification.setContent(pushToTopicRequest.getContent());
         return notification;
     }
 

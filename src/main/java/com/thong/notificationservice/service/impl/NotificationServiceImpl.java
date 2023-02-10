@@ -1,10 +1,10 @@
 package com.thong.notificationservice.service.impl;
 
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
-import com.thong.notificationservice.dto.NotificationDto;
-import com.thong.notificationservice.entity.Notification;
+import com.thong.notificationservice.dto.PushToTopicRequest;
+import com.thong.notificationservice.dto.SubscribeToTopicRequest;
+import com.thong.notificationservice.dto.UnsubscribeToTopicRequest;
 import com.thong.notificationservice.repository.NotificationRepository;
 import com.thong.notificationservice.service.NotificationService;
 import com.thong.notificationservice.util.bean.ObjectMapper;
@@ -27,21 +27,26 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     @Transactional
-    public String pushNotification(NotificationDto notificationDto) {
-        Notification notification = objectMapper.map(notificationDto);
-
+    public void pushToTopic(PushToTopicRequest pushToTopicRequest) {
+        var notification = objectMapper.map(pushToTopicRequest);
         notificationRepository.save(notification);
 
-        Message msg = Message.builder()
+        var message = Message.builder()
                 .setTopic(notification.getTopicId())
                 .putData("content", notification.getContent())
                 .build();
 
-        try {
-            return firebaseMessaging.send(msg);
-        } catch (FirebaseMessagingException e) {
-            throw new RuntimeException(e);
-        }
+        firebaseMessaging.sendAsync(message);
+    }
+
+    @Override
+    public void subscribeToTopic(SubscribeToTopicRequest subscribeToTopicRequest) {
+        firebaseMessaging.subscribeToTopicAsync(subscribeToTopicRequest.getRegistrationTokens(), subscribeToTopicRequest.getTopicId());
+    }
+
+    @Override
+    public void unsubscribeToTopic(UnsubscribeToTopicRequest unsubscribeToTopicRequest) {
+        firebaseMessaging.unsubscribeFromTopicAsync(unsubscribeToTopicRequest.getRegistrationTokens(), unsubscribeToTopicRequest.getTopicId());
     }
 
 }
