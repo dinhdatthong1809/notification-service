@@ -4,9 +4,9 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.Message;
 import com.thong.notificationservice.dto.PushToTopicRequest;
 import com.thong.notificationservice.dto.SubscribeToTopicRequest;
-import com.thong.notificationservice.dto.UnsubscribeToTopicRequest;
+import com.thong.notificationservice.dto.UnsubscribeFromTopicRequest;
 import com.thong.notificationservice.repository.NotificationRepository;
-import com.thong.notificationservice.service.NotificationService;
+import com.thong.notificationservice.service.NotificationTopicService;
 import com.thong.notificationservice.util.bean.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional(readOnly = true)
-public class NotificationServiceImpl implements NotificationService {
+public class NotificationTopicServiceImpl implements NotificationTopicService {
 
     @Autowired
     private FirebaseMessaging firebaseMessaging;
@@ -27,8 +27,8 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     @Transactional
-    public void pushToTopic(PushToTopicRequest pushToTopicRequest) {
-        var notification = objectMapper.map(pushToTopicRequest);
+    public void pushToTopic(PushToTopicRequest request) {
+        var notification = objectMapper.map(request);
         notificationRepository.save(notification);
 
         var message = Message.builder()
@@ -40,13 +40,13 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public void subscribeToTopic(SubscribeToTopicRequest subscribeToTopicRequest) {
-        firebaseMessaging.subscribeToTopicAsync(subscribeToTopicRequest.getRegistrationTokens(), subscribeToTopicRequest.getTopicId());
+    public void subscribeToTopic(SubscribeToTopicRequest request) {
+        firebaseMessaging.subscribeToTopicAsync(request.getRegistrationTokens(), request.getTopicId());
     }
 
     @Override
-    public void unsubscribeToTopic(UnsubscribeToTopicRequest unsubscribeToTopicRequest) {
-        firebaseMessaging.unsubscribeFromTopicAsync(unsubscribeToTopicRequest.getRegistrationTokens(), unsubscribeToTopicRequest.getTopicId());
+    public void unsubscribeFromTopic(UnsubscribeFromTopicRequest request) {
+        firebaseMessaging.unsubscribeFromTopicAsync(request.getRegistrationTokens(), request.getTopicId());
     }
 
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class UnsubscribeToTopicRequest {
+public class UnsubscribeFromTopicRequest {
 
     private String topicId;
 
